@@ -3,9 +3,9 @@ package com.wanderlei.newsappcompose.di
 import android.app.Application
 import com.wanderlei.newsappcompose.data.manager.LocalUserManagerImpl
 import com.wanderlei.newsappcompose.domain.manager.LocalUserManager
-import com.wanderlei.newsappcompose.domain.usecases.AppEntryUseCases
-import com.wanderlei.newsappcompose.domain.usecases.ReadAppEntry
-import com.wanderlei.newsappcompose.domain.usecases.SaveAppEntry
+import com.wanderlei.newsappcompose.domain.usecases.app_entry.AppEntryUseCases
+import com.wanderlei.newsappcompose.domain.usecases.app_entry.ReadAppEntry
+import com.wanderlei.newsappcompose.domain.usecases.app_entry.SaveAppEntry
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

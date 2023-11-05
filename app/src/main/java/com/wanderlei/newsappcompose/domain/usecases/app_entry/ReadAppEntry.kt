@@ -1,4 +1,4 @@
-package com.wanderlei.newsappcompose.domain.usecases
+package com.wanderlei.newsappcompose.domain.usecases.app_entry
 
 import com.wanderlei.newsappcompose.domain.manager.LocalUserManager
 import kotlinx.coroutines.flow.Flow
