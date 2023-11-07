@@ -11,6 +11,7 @@ import com.wanderlei.newsappcompose.domain.usecases.app_entry.ReadAppEntry
 import com.wanderlei.newsappcompose.domain.usecases.app_entry.SaveAppEntry
 import com.wanderlei.newsappcompose.domain.usecases.news.GetNews
 import com.wanderlei.newsappcompose.domain.usecases.news.NewsUseCases
+import com.wanderlei.newsappcompose.domain.usecases.news.SearchNews
 import com.wanderlei.newsappcompose.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -56,6 +57,6 @@ object AppModule {
     @Provides
     @Singleton
     fun provideNewsUseCases(newsRepository: NewsRepository): NewsUseCases {
-        return NewsUseCases(getNews = GetNews(newsRepository))
+        return NewsUseCases(getNews = GetNews(newsRepository), searchNews = SearchNews(newsRepository))
     }
 }
