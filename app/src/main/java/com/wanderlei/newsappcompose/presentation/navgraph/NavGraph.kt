@@ -1,12 +1,14 @@
 package com.wanderlei.newsappcompose.presentation.navgraph
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.wanderlei.newsappcompose.presentation.home.HomeScreen
+import com.wanderlei.newsappcompose.presentation.home.HomeViewModel
 import com.wanderlei.newsappcompose.presentation.onboarding.OnBoardingScreen
 import com.wanderlei.newsappcompose.presentation.onboarding.OnBoardingViewModel
 
@@ -15,12 +17,12 @@ fun NavGraph(
     startDestination: String
 ) {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = startDestination){
+    NavHost(navController = navController, startDestination = startDestination) {
         navigation(
             route = Route.AppStartNavigation.route,
             startDestination = Route.OnBoardingScreen.route
-        ){
-            composable(route = Route.OnBoardingScreen.route){
+        ) {
+            composable(route = Route.OnBoardingScreen.route) {
                 val viewModel: OnBoardingViewModel = hiltViewModel()
                 OnBoardingScreen(event = viewModel::onEvent)
             }
@@ -29,8 +31,10 @@ fun NavGraph(
             route = Route.NewsNavigation.route,
             startDestination = Route.NewsNavigatorScreen.route
         ) {
-            composable(route = Route.NewsNavigatorScreen.route){
-                Text(text = "News Navigator Screen")
+            composable(route = Route.NewsNavigatorScreen.route) {
+                val viewModel: HomeViewModel = hiltViewModel()
+                val articles = viewModel.news.collectAsLazyPagingItems()
+                HomeScreen(articles = articles, navigate = {})
             }
         }
     }
