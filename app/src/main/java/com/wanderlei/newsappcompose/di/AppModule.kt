@@ -1,6 +1,10 @@
 package com.wanderlei.newsappcompose.di
 
 import android.app.Application
+import androidx.room.Room
+import com.wanderlei.newsappcompose.data.local.NewsDao
+import com.wanderlei.newsappcompose.data.local.NewsDatabase
+import com.wanderlei.newsappcompose.data.local.NewsTypeConverter
 import com.wanderlei.newsappcompose.data.manager.LocalUserManagerImpl
 import com.wanderlei.newsappcompose.data.remote.NewsApi
 import com.wanderlei.newsappcompose.data.remote.repository.NewsRepositoryImpl
@@ -13,6 +17,7 @@ import com.wanderlei.newsappcompose.domain.usecases.news.GetNews
 import com.wanderlei.newsappcompose.domain.usecases.news.NewsUseCases
 import com.wanderlei.newsappcompose.domain.usecases.news.SearchNews
 import com.wanderlei.newsappcompose.util.Constants.BASE_URL
+import com.wanderlei.newsappcompose.util.Constants.NEWS_DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -57,6 +62,27 @@ object AppModule {
     @Provides
     @Singleton
     fun provideNewsUseCases(newsRepository: NewsRepository): NewsUseCases {
-        return NewsUseCases(getNews = GetNews(newsRepository), searchNews = SearchNews(newsRepository))
+        return NewsUseCases(
+            getNews = GetNews(newsRepository),
+            searchNews = SearchNews(newsRepository)
+        )
     }
+
+    @Provides
+    @Singleton
+    fun provideNewsDatabase(application: Application): NewsDatabase {
+        return Room.databaseBuilder(
+            context = application,
+            klass = NewsDatabase::class.java,
+            name = NEWS_DATABASE_NAME
+        ).addTypeConverter(NewsTypeConverter())
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNewsDao(
+        newsDatabase: NewsDatabase
+    ): NewsDao = newsDatabase.newsDao
 }
