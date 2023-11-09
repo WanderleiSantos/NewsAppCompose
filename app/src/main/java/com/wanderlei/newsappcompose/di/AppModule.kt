@@ -13,9 +13,12 @@ import com.wanderlei.newsappcompose.domain.repository.NewsRepository
 import com.wanderlei.newsappcompose.domain.usecases.app_entry.AppEntryUseCases
 import com.wanderlei.newsappcompose.domain.usecases.app_entry.ReadAppEntry
 import com.wanderlei.newsappcompose.domain.usecases.app_entry.SaveAppEntry
+import com.wanderlei.newsappcompose.domain.usecases.news.DeleteArticle
 import com.wanderlei.newsappcompose.domain.usecases.news.GetNews
 import com.wanderlei.newsappcompose.domain.usecases.news.NewsUseCases
 import com.wanderlei.newsappcompose.domain.usecases.news.SearchNews
+import com.wanderlei.newsappcompose.domain.usecases.news.SelectArticles
+import com.wanderlei.newsappcompose.domain.usecases.news.UpsertArticle
 import com.wanderlei.newsappcompose.util.Constants.BASE_URL
 import com.wanderlei.newsappcompose.util.Constants.NEWS_DATABASE_NAME
 import dagger.Module
@@ -61,10 +64,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideNewsUseCases(newsRepository: NewsRepository): NewsUseCases {
+    fun provideNewsUseCases(newsRepository: NewsRepository, newsDao: NewsDao): NewsUseCases {
         return NewsUseCases(
             getNews = GetNews(newsRepository),
-            searchNews = SearchNews(newsRepository)
+            searchNews = SearchNews(newsRepository),
+            upsertArticle = UpsertArticle(newsDao),
+            deleteArticle = DeleteArticle(newsDao),
+            selectArticles = SelectArticles(newsDao)
         )
     }
 
