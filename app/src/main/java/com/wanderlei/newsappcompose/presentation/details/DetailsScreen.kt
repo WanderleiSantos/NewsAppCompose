@@ -3,6 +3,7 @@ package com.wanderlei.newsappcompose.presentation.details
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -29,14 +31,28 @@ import com.wanderlei.newsappcompose.presentation.Dimens.ArticleImageHeight
 import com.wanderlei.newsappcompose.presentation.Dimens.MediumPadding1
 import com.wanderlei.newsappcompose.presentation.details.components.DetailsTopBar
 import com.wanderlei.newsappcompose.ui.theme.NewsAppComposeTheme
+import com.wanderlei.newsappcompose.util.UIComponent
 
 @Composable
 fun DetailsScreen(
     article: Article,
     event: (DetailsEvent) -> Unit,
+    sideEffect: UIComponent?,
     navigateUp: () -> Unit
 ) {
     val context = LocalContext.current
+
+    LaunchedEffect(key1 = sideEffect) {
+        sideEffect?.let {
+            when(sideEffect){
+                is UIComponent.Toast ->{
+                    Toast.makeText(context, sideEffect.message, Toast.LENGTH_SHORT).show()
+                    event(DetailsEvent.RemoveSideEffect)
+                }
+                else -> Unit
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -61,7 +77,7 @@ fun DetailsScreen(
                     }
                 }
             },
-            onBookmarkClick = { event(DetailsEvent.SaveArticle) },
+            onBookmarkClick = { event(DetailsEvent.UpsertDeleteArticle(article)) },
             onBackClick = navigateUp
         )
 
@@ -126,6 +142,7 @@ fun DetailsScreenPreview() {
                 urlToImage = "https://media.wired.com/photos/6495d5e893ba5cd8bbdc95af/191:100/w_1280,c_limit/The-EU-Rules-Phone-Batteries-Must-Be-Replaceable-Gear-2BE6PRN.jpg"
             ),
             event = {},
+            sideEffect = null
         ) {
 
         }

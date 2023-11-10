@@ -11,6 +11,7 @@ import com.wanderlei.newsappcompose.presentation.bookmark.BookmarkScreen
 import com.wanderlei.newsappcompose.presentation.bookmark.BookmarkViewModel
 import com.wanderlei.newsappcompose.presentation.home.HomeScreen
 import com.wanderlei.newsappcompose.presentation.home.HomeViewModel
+import com.wanderlei.newsappcompose.presentation.news_navigator.NewsNavigator
 import com.wanderlei.newsappcompose.presentation.onboarding.OnBoardingScreen
 import com.wanderlei.newsappcompose.presentation.onboarding.OnBoardingViewModel
 import com.wanderlei.newsappcompose.presentation.search.SearchScreen
@@ -36,13 +37,7 @@ fun NavGraph(
             startDestination = Route.NewsNavigatorScreen.route
         ) {
             composable(route = Route.NewsNavigatorScreen.route) {
-                /* val viewModel: HomeViewModel = hiltViewModel()
-                val articles = viewModel.news.collectAsLazyPagingItems()
-                HomeScreen(articles = articles, navigate = {})*/
-                /*val viewModel: SearchViewModel = hiltViewModel()
-                SearchScreen(state = viewModel.state.value, event = viewModel::onEvent, navigate = {})*/
-                val viewModel: BookmarkViewModel = hiltViewModel()
-                BookmarkScreen(state = viewModel.state.value, navigate = {})
+                 NewsNavigator()
             }
         }
     }

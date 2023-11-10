@@ -1,12 +1,12 @@
 package com.wanderlei.newsappcompose.domain.usecases.news
 
-import com.wanderlei.newsappcompose.data.local.NewsDao
 import com.wanderlei.newsappcompose.domain.model.Article
+import com.wanderlei.newsappcompose.domain.repository.NewsRepository
 
 class UpsertArticle(
-    private val newsDao: NewsDao
+    private val newsRepository: NewsRepository
 ) {
     suspend operator fun invoke(article: Article) {
-        newsDao.upsert(article)
+        newsRepository.upsertArticle(article)
     }
 }

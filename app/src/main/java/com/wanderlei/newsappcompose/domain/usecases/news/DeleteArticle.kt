@@ -1,12 +1,12 @@
 package com.wanderlei.newsappcompose.domain.usecases.news
 
-import com.wanderlei.newsappcompose.data.local.NewsDao
 import com.wanderlei.newsappcompose.domain.model.Article
+import com.wanderlei.newsappcompose.domain.repository.NewsRepository
 
 class DeleteArticle (
-    private val newsDao: NewsDao
+    private val newsRepository: NewsRepository
 ) {
     suspend operator fun invoke(article: Article) {
-        newsDao.delete(article)
+        newsRepository.deleteArticle(article)
     }
 }
